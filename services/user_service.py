@@ -1,20 +1,20 @@
 from typing import Type
 
-from models.user import UserModel
+from models.models import User
 from schemas.user import UserAuthRequest, UserCreateRequest
 from fastapi_sqlalchemy import db
 
 
 class UserService:
     async def __check_user_existence(self, login: str) -> bool:
-        exist_user = db.session.query(UserModel).filter(UserModel.login == login).first()
+        exist_user = db.session.query(User).filter(User.login == login).first()
         if exist_user is None:
             return False
 
         return True
 
-    async def create_user(self, user: UserCreateRequest) -> UserModel:
-        db_user = UserModel(**user.dict())
+    async def create_user(self, user: UserCreateRequest) -> User:
+        db_user = User(**user.dict())
 
         exist_user = await self.__check_user_existence(user.login)
 
@@ -25,10 +25,10 @@ class UserService:
         db.session.commit()
         return db_user
 
-    async def get_user(self, user: UserAuthRequest) -> Type[UserModel]:
-        current_user = db.session.query(UserModel).filter(
-            UserModel.login == user.login,
-            UserModel.password == user.password
+    async def get_user(self, user: UserAuthRequest) -> Type[User]:
+        current_user = db.session.query(User).filter(
+            User.login == user.login,
+            User.password == user.password
         ).first()
 
         if current_user is None:
