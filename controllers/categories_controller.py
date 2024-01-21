@@ -14,11 +14,22 @@ categories_router.tags = ["Categories"]
 #put, patch, delete, get
 
 
-@categories_router.get("/{user_id}", response_model=List[UsersCategoriesResponse])
+@categories_router.get("/{user_id}")
 async def users_categories(user_id: int):
-    try:
-        new_user = await auth_service.auth(user)
-    except Exception as e:
-        raise HTTPException(status_code=400, detail=str(e))
 
-    return new_user
+    return {'user_id': user_id}
+
+
+@categories_router.patch("/{user_id}/{category_id}")
+async def update_users_categories(user_id: int):
+    pass
+
+
+@categories_router.delete("/{user_id}/{category_id}")
+async def delete_users_categories(user_id: int):
+    pass
+
+
+@categories_router.put("/{user_id}/{category_id}")
+async def add_users_categories(user_id: int):
+    pass
