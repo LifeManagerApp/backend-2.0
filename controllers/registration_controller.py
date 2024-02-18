@@ -13,10 +13,9 @@ registration_service = RegistrationService()
 
 @regist_router.post("/", response_model=UserAuthResponse)
 async def registration(user: UserCreateRequest):
-    try:
-        new_user = await registration_service.registration(user)
-    except Exception as e:
-        raise HTTPException(status_code=400, detail=str(e))
+    new_user = await registration_service.registration(user)
+    if type(new_user) is Exception:
+        raise HTTPException(status_code=400, detail=str(new_user))
 
     return new_user
 

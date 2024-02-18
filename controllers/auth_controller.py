@@ -13,9 +13,9 @@ auth_service = AuthService()
 
 @auth_router.post("/", response_model=UserAuthResponse)
 async def auth(user: UserAuthRequest):
-    try:
-        new_user = await auth_service.auth(user)
-    except Exception as e:
-        raise HTTPException(status_code=400, detail=str(e))
+    current_user = await auth_service.auth(user)
 
-    return new_user
+    if type(current_user) is Exception:
+        raise HTTPException(status_code=400, detail=str(current_user))
+
+    return current_user
