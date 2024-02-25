@@ -14,6 +14,7 @@ from fastapi import FastAPI
 from controllers.auth_controller import auth_router
 from controllers.registration_controller import regist_router
 from controllers.categories_controller import categories_router
+from controllers.history_controller import history_router
 from models.base import Base
 from fastapi_sqlalchemy import DBSessionMiddleware
 from settings.db_settings import DBSettings
@@ -25,6 +26,7 @@ app.add_middleware(DBSessionMiddleware, db_url=f'postgresql+psycopg2://{DBSettin
 app.include_router(auth_router)
 app.include_router(regist_router)
 app.include_router(categories_router)
+app.include_router(history_router)
 
 
 if __name__ == "__main__":

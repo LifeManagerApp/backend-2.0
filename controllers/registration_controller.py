@@ -18,4 +18,3 @@ async def registration(user: UserCreateRequest):
         raise HTTPException(status_code=400, detail=str(new_user))
 
     return new_user
-

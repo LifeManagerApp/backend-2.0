@@ -1,7 +1,8 @@
-from sqlalchemy import Column, String, Integer, Boolean, ForeignKey, UUID, text
+from sqlalchemy import Column, String, Integer, Boolean, ForeignKey, UUID, text, Date, Float
 from sqlalchemy.orm import relationship
 from .base import Base
 import uuid
+from datetime import datetime
 
 
 class User(Base):
@@ -32,3 +33,18 @@ class UsersCategory(Base):
 
     user = relationship('User')
     categories = relationship('Categories')
+
+
+class History(Base):
+    __tablename__ = "history"
+
+    id = Column(Integer, primary_key=True)
+    user_id = Column(UUID(as_uuid=True), ForeignKey('user.id', ondelete='CASCADE'), nullable=False)
+    users_category_id = Column(Integer, ForeignKey('user_categories.id', ondelete='CASCADE'), nullable=False)
+    amount = Column(Float, nullable=False)
+    comment = Column(String, nullable=True, default=None)
+    transactions_type = Column(Boolean, nullable=False, default=True)  # Income - True, Expense - False
+    date = Column(Date, default=datetime.now().date())
+
+    user = relationship('User')
+    user_categories = relationship('UsersCategory')
